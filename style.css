@@ -1,14 +1,24 @@
 h1{
 	color: brown;
 	font-family: Arial, sans-serif;
-	font-size: 2rem /*2x the HTML size. default size is 16px, so is 62.5% is 10 px*/;
+	font-size: 2.5rem /*2x the HTML size. default size is 16px, so is 62.5% is 10 px*/;
+	text-shadow: 3px 2px #716565;
 }
 body{
 	background: #F5CBA7;
 }
 div{
+	text-indent: 40px;
 	color: black;
 	font-family: Arial, sans-serif;
+	background-color: lightgrey;
+    width: 650px;
+    border: 25px solid brown;
+    padding: 25px;
+    margin: 25px;
+	background: #824324;
+    -webkit-animation: mymove 10s;
+    animation: mymove 10s;
 	
 }
 
@@ -24,7 +34,7 @@ a:focus{
 	color: #7fff00;
 }
 a:visited{
-	color: red;
+	color: grey;
 }
 a:active{
 	color: #7fff00;
@@ -39,4 +49,40 @@ a:active{
 	padding: 12px;
 	text-align: center;
 	background-color: #f1f1c1;
+}
+p{
+	text-indent: 40px;
+	padding: 8px;
+	max-width: 700px;
+	min-width: 600px;
+}
+.types{
+	color: #FE0101;
+}
+input[type=button], input[type=submit], input[type=reset] {
+    background-color: brown;
+    border: none;
+    color: white;
+    padding: 15px 25px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+img{
+	<!--float: right;-->
+}
+
+
+
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes mymove {
+    from {background-color: #824324;}
+    to {background-color: #E9AF92;}
+}
+
+/* Standard syntax */
+@keyframes mymove {
+    from {background-color: #824324;}
+    to {background-color: #E9AF92;}
 }
