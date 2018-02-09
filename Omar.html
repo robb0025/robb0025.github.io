@@ -2,6 +2,7 @@
 
 <html>
 	<head>
+		
 		<title><font face="Geneva">Kuchen</font></title>
 		<meta charset="utf-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -9,11 +10,18 @@
 		
 	</head>
 	<body>
+		<div id="topmenu">
+			<h1 face="Geneva">Welcome to the Kuchen Page</h1>
+		</div>
 		
-		<h1 face="Geneva">Welcome to the Kuchen Page</h1>
+		<br></br>
+		<br></br>
+		<br></br>
+		
 		<img src="C:\Users\robb0025\Desktop\Capture.PNG" alt="kuchen pic" width="350" height="auto" />
 		<a href="https://en.wikipedia.org/wiki/Kuchen" target="_blank">Information Source(Wikipedia)</a>
 		<br></br>
+		
 		<button type="button"
 			onclick="document.getElementById('demo').innerHTML = Date()">
 			Click me to display Date and Time.
@@ -28,8 +36,7 @@
 				also, but not always, including some form of sweetener and/or fat. In Germany it is a common
 				tradition to invite friends over to one's house or to a cafe between 
 				noon and evening to drink coffee and eat Kuchen.
-			</p>
-			<p id="firstp">
+				<br></br>
 				The term itself may cover as many distinct desserts as its English counterpart "cake".
 				However, the word "cake" covers both Kuchen and Torte, sometimes confused with one another. 
 				The key difference being that a Torte is a Kuchen that is decorated or layered with cream, 
@@ -37,8 +44,8 @@
 				or fancy in nature. Examples of a Torte made from a base Kuchen include
 				the Jewish Palacsinken Torte[3] and Mohn Torte (or Kindli).
 			</p>
-		</div>
-			
+		
+		</div id="leftp">
 			<h2><b>Varieties</b></h2>
 			
 			<ul>
@@ -55,7 +62,7 @@
 					Baumkuchen</a>
 				</li>
 			</ul>
-		
+			
 			<!-- comments look like this -->
 			
 			<p>
@@ -101,6 +108,19 @@
 				<td id="table1">Baumkuchen</td>
 			</tr>
 		</table>
+		<br></br>
+		
+		
+		
+		<p>Random number between 0 and 1000. <code>Math.floor()</code> to return the largest integer less than or equal to the random number. This provides a more uniform distribution than using <code>Math.round()</code>.</p>
+		<p id="msg"></p>
+		<script>
+		  document.getElementById("msg").innerHTML = Math.floor(Math.random( 1, 1000 ) * 100);
+		</script>
+		
+		<br></br>
+		
+		
 		
 		<p>Enter an Email to subscirbe!</p>
 
@@ -109,7 +129,8 @@
 		  <input type="text" id="fname" name="fname">
 		  <input type="submit" value="Submit">
 		</form>
-		
+		<iframe width="420" height="345" src="https://www.youtube.com/embed/tgbNymZ7vqY">
+		</iframe>
 		
 	</body>
 </html>
