@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+		<title>To-Do List</title>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+</head>
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    body{
+        background: #a7c6f52e;
+    }
+
+    table, td {
+        text-align: center;
+        padding: 3px;
+        border-bottom: 1px solid black;
+        
+    }
+    h1{
+        text-align: center;
+        font-family: fantasy;
+        font-size: 40px;
+    }
+    
+    button {
+        background-color: mediumpurple;
+        border: 1px solid black;
+        color: light;
+        padding: 16px 32px;
+        text-decoration: none;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+    
+    input{     
+        background-color: white;
+        border: none;
+        color: black;
+        padding: 10px 24px;
+        text-decoration: none;
+        margin: 4px 2px;
+        cursor: pointer;
+        
+    }
+    
+    .container {
+    border-radius: 5px;
+    background-color: lightsteelblue;
+    padding: 20px;
+    }
+
+#deleteButton {
+    background-color: #f44336;
+    border: none;
+    color: white;
+    padding: 5px 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+</style>
+</head>
+<body>
+
+<h1> To-Do List</h1>
+
+<div class="container">    
+    <p><b>Add Task Below: </b> (notice Due Date is yyyy/mm/dd)</p>
+    <tr>
+            <td><input type= "text" id="taskName" placeholder='Enter Task'/></td>
+            <select id="taskCategory">
+                <option value="No Category"></option>
+                <option value="Homework">Homework</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Meeting">Meeting</option>
+                <option value="Cooking">Cooking</option>
+                <option value="Other">Other</option>
+            </select>
+    </tr>
+
+            <!--<select id="dateYear" class="years">
+                <option value="noYear"></option>
+                <option value="2018">2018</option>
+                <option value="2019">2019</option>
+                <option value="2020">2020</option>
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+                <option value="2027">2027</option>
+                <option value="2028">2028</option>
+            </select>
+            <select id="dateDay" class="dates">
+                <option value="noDay"></option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+            </select>
+            <select id="dateMonth" class="months">
+                <option value="noMonth"></option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+            </select>-->
+        <input id="dateChoose" type="date"></input>
+
+            <td><button type="button" onclick="addToList()">Add</button></td>		
+
+    <br></br>
+    <p>
+    <input type= "text" id="categoryToAdd" placeholder='Enter a New Category'>Select Color-></input>
+    <input type="color" id="favColor" value="#ff0000"></input>
+    <button type="button" onclick="addCategory()">Add Custom Category</button>
+    </p>
+</div>
+
+<br></br>
+<!--<div id = "Sorts">
+	<button type="button" onclick="sortTableByName()">Sort By Name</button>
+	<button type="button" onclick="sortTableDateCreated()">Sort By Date Created</button>
+	<button type="button" onclick="sortTableByCategory()">Sort By Category</button>
+	<button type="button" onclick="sortTableByComplete()">Sort By Complete</button>
+</div>
+<!--<input id="checkBox" type="checkbox"></input>-->
+
+<table id="myTable">
+	<tr>
+        <td onclick="sortTableByName()"><b>Task Name</b></td>
+		<td onclick="sortTableByCategory()"><b>Category</b></td>
+		<td onclick="sortTableDateCreated()"><b>Date Created</b></td>
+		<td onclick="sortTableByDueDate()"><b>Due Date</b></td>
+		<td onclick="sortTableByComplete()"><b>Complete?</b></td>
+		<td><b>Delete Button</b></td>
+	</tr>
+</table>
+<br></br>
+
+
+<script>
+    
+ 
+    var colorTable = [];
+    var temp = 0;
+    function addToList() {
+    
+        
+        
+        var table = document.getElementById("myTable");
+        var row = table.insertRow(1);
+        var cellName = row.insertCell(0);
+        var cellCategory = row.insertCell(1);
+        var cellCreated = row.insertCell(2);
+        var cellDueDate = row.insertCell(3);
+        var cellCheck = row.insertCell(4);
+        var cellDelete = row.insertCell(5);
+
+        console.log(document.getElementById("dateChoose").value);
+
+/*      var day = document.getElementById("dateDay").value;
+        var month = document.getElementById("dateMonth").value;
+        var year = document.getElementById("dateYear").value;
+        var date = year + '/' + month + '/' + day;*/
+        
+        
+        var today2 = new Date();
+        var dd = today2.getDate();
+        var mm = today2.getMonth()+1; //January is 0!
+        var yyyy = today2.getFullYear(); 
+
+        if(dd<10) {
+            dd = '0'+dd
+        } 
+
+        if(mm<10) {
+            mm = '0'+mm
+        } 
+
+
+        today2 = yyyy + '/' + mm + '/' + dd;
+
+        cellName.innerHTML = document.getElementById("taskName").value;
+         if(cellName.innerHTML == ""){
+                alert("Task name is blank. Please enter a task.");
+                document.getElementById("myTable").deleteRow(1);
+        }
+        cellCreated.innerHTML = today2;
+        cellCategory.innerHTML = document.getElementById("taskCategory").value;
+        cellDueDate.innerHTML = document.getElementById("dateChoose").value;
+        cellCheck.innerHTML = "<input type='checkbox'></input>";
+        cellDelete.innerHTML = "<input id='deleteButton' type='button' value='Delete' onclick='deleteRow(this)'></input>";
+
+
+        switch (document.getElementById("taskCategory").value) {
+            case "No Category":
+                break;
+            case "Homework":
+                cellCheck.style.background="green";
+                break;
+            case "Shopping":
+                cellCheck.style.background="red";
+                break;
+            case "Meeting":
+                cellCheck.style.background="pink";
+              break;
+            case "Cooking":
+                cellCheck.style.background="purple";
+                break;
+            case "Other":
+                cellCheck.style.background="yellow";
+                break;
+        }
+
+        var i = 0;
+        var x = false;
+        while(x == false && i < temp + 2){
+            console.log(document.getElementById("taskCategory").value);
+            if(colorTable[i] == document.getElementById("taskCategory").value){
+                console.log(colorTable[i+1]);
+                cellCheck.style.background=colorTable[i+1];
+                x = true;
+
+            }else{
+
+                i = i + 2;
+            }
+        }
+    }
+    
+   function deleteRow(cell){
+        var yeah = window.confirm("Are you suer you want to delete task? (Can not undo)");
+        var i = cell.parentNode.parentNode.rowIndex;
+		if(yeah){
+			document.getElementById("myTable").deleteRow(i);	
+		}
+        
+    }
+    function sortTableByName() {
+      var table, rows, switching, i, x, y, shouldSwitch;
+      table = document.getElementById("myTable");
+      switching = true;
+      while (switching) {
+        switching = false;
+        rows = table.getElementsByTagName("TR");
+        for (i = 1; i < (rows.length - 1); i++) {
+
+          shouldSwitch = false;
+          x = rows[i].getElementsByTagName("TD")[0];
+          y = rows[i + 1].getElementsByTagName("TD")[0];
+          if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+            shouldSwitch= true;
+            break;
+          }
+        }
+        if (shouldSwitch) {
+          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+          switching = true;
+        }
+      }
+    }
+    function sortTableDateCreated() {
+      var table, rows, switching, i, x, y, shouldSwitch;
+      table = document.getElementById("myTable");
+      switching = true;
+      while (switching) {
+        switching = false;
+        rows = table.getElementsByTagName("TR");
+        for (i = 1; i < (rows.length - 1); i++) {
+
+          shouldSwitch = false;
+          x = rows[i].getElementsByTagName("TD")[2];
+          y = rows[i + 1].getElementsByTagName("TD")[2];
+          if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+            shouldSwitch= true;
+            break;
+          }
+        }
+        if (shouldSwitch) {
+          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+          switching = true;
+        }
+      }
+    }
+    function sortTableByCategory() {
+      var table, rows, switching, i, x, y, shouldSwitch;
+      table = document.getElementById("myTable");
+      switching = true;
+      while (switching) {
+        switching = false;
+        rows = table.getElementsByTagName("TR");
+        for (i = 1; i < (rows.length - 1); i++) {
+
+          shouldSwitch = false;
+          x = rows[i].getElementsByTagName("TD")[1];
+          y = rows[i + 1].getElementsByTagName("TD")[1];
+          if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+            shouldSwitch= true;
+            break;
+          }
+        }
+        if (shouldSwitch) {
+          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+          switching = true;
+        }
+      }
+    }
+    function sortTableByComplete() {
+      var table, rows, switching, i, x, y, shouldSwitch;
+      table = document.getElementById("myTable");
+      switching = true;
+      while (switching) {
+        switching = false;
+        rows = table.getElementsByTagName("TR");
+        for (i = 1; i < (rows.length - 1); i++) {
+
+          shouldSwitch = false;
+          x = rows[i].getElementsByTagName("TD")[4].getElementsByTagName("input")[0];
+          y = rows[i + 1].getElementsByTagName("TD")[4].getElementsByTagName("input")[0];
+          if (x.checked > y.checked) {
+            shouldSwitch= true;
+            break;
+          }
+        }
+        if (shouldSwitch) {
+          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+          switching = true;
+        }
+      }
+    }
+    function sortTableByDueDate() {
+      var table, rows, switching, i, x, y, shouldSwitch;
+      table = document.getElementById("myTable");
+      switching = true;
+      while (switching) {
+        switching = false;
+        rows = table.getElementsByTagName("TR");
+        for (i = 1; i < (rows.length - 1); i++) {
+
+          shouldSwitch = false;
+          x = rows[i].getElementsByTagName("TD")[3];
+          y = rows[i + 1].getElementsByTagName("TD")[3];
+          if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+            shouldSwitch= true;
+            break;
+          }
+        }
+        if (shouldSwitch) {
+          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+          switching = true;
+        }
+      }
+    }
+    function addCategory(){
+        var select = document.getElementById("taskCategory");
+        var toAdd = document.getElementById("categoryToAdd").value;
+        var colorHere = document.getElementById("favColor").value;
+        if(toAdd == ""){
+            alert("No Category entered. Please try again");
+        }else{
+        select.options[select.options.length] = new Option(toAdd.toString(), toAdd.toString());
+        colorTable[0] = toAdd;
+        colorTable[1] = colorHere;
+        temp = temp + 2;
+        }
+    }
+    
+
+</script>
+ 
+
+</body>
+</html>
