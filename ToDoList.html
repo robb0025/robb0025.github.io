@@ -120,16 +120,11 @@
 </table>
 <br></br>
 
-
 <script>
     
- 
     var colorTable = [];
     var temp = 0;
-    function addToList() {
-    
-        
-        
+    function addToList() {      
         var table = document.getElementById("myTable");
         var row = table.insertRow(1);
         var cellName = row.insertCell(0);
@@ -137,16 +132,7 @@
         var cellCreated = row.insertCell(2);
         var cellDueDate = row.insertCell(3);
         var cellCheck = row.insertCell(4);
-        var cellDelete = row.insertCell(5);
-
-        console.log(document.getElementById("dateChoose").value);
-
-/*      var day = document.getElementById("dateDay").value;
-        var month = document.getElementById("dateMonth").value;
-        var year = document.getElementById("dateYear").value;
-        var date = year + '/' + month + '/' + day;*/
-        
-        
+        var cellDelete = row.insertCell(5);    
         var today2 = new Date();
         var dd = today2.getDate();
         var mm = today2.getMonth()+1; //January is 0!
@@ -159,8 +145,6 @@
         if(mm<10) {
             mm = '0'+mm
         } 
-
-
         today2 = yyyy + '/' + mm + '/' + dd;
 
         cellName.innerHTML = document.getElementById("taskName").value;
@@ -347,10 +331,6 @@
         temp = temp + 2;
         }
     }
-    
-
 </script>
- 
-
 </body>
 </html>
