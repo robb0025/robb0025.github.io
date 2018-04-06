@@ -12,10 +12,11 @@
 </head>
 <body ng-app="myApp">
   <h1 style="text-align: center;">Air Quality</h1>
+  <a href="about.html">About the Project!</a>
 
   <input id="pac-input" class="controls" type="text" placeholder="Search Box">
 
-  <div id="map" style="height: 400px; width: 500px;"></div>
+  <div id="map" style="height: 400px; width: 725px;"></div>
 
   <div ng-controller="Populate">
     <!-- Stuff to Filter  -->
@@ -102,19 +103,19 @@ app.controller('Populate', function($scope, $http) {
     var bounds = map.getBounds();
     var center = bounds.getCenter();
     var ne = bounds.getNorthEast();
-    var radius = google.maps.geometry.spherical.computeDistanceBetween(center, ne);
+    var radius = Math.floor(google.maps.geometry.spherical.computeDistanceBetween(center, ne));
 
     var theDate = document.getElementById('days');
     var nextDay = document.getElementById('tomorrow')
-    var filter = "" + document.getElementById('category').value + document.getElementById('compare').value + document.getElementById('filterValue').value;
     var chooseDate = "";
     if(theDate.value.length > 0 && nextDay.value.length > 0){
         chooseDate = "&date_from=" + theDate.value + "&date_to=" + tomorrow.value;
         console.log("filter 2 " + chooseDate);
     };
 
+    var filter = "" + document.getElementById('category').value + document.getElementById('compare').value + document.getElementById('filterValue').value;
     console.log("filter" + filter);
-    var airQ = "https://api.openaq.org/v1/measurements?coordinates=" + lat + "," + lng + "&radius=" +radius + filter + chooseDate;
+    var airQ = "https://api.openaq.org/v1/measurements?coordinates=" + lat + "," + lng + "&radius=" + radius + filter + chooseDate;
     console.log(airQ);
     $http.get(airQ).then(function(response) {
       console.log(response.data.results);

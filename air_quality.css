@@ -8,7 +8,52 @@
         height: 100%;
         margin: 0;
         padding: 0;
+        background: lightgrey;
+          padding: 15px;
       }
+
+        body{
+            font-family: calibri, sans-serif;
+        }
+
+        h1{
+            font-size: 5rem;
+            color: #2f6c87;
+            background-color: #eaeeef;
+            text-align : center;
+            float: top;
+        }
+
+        h2{
+            font-size: 3rem;
+            color: #2f6c87;
+            text-align  : left;
+            padding-top: 1rem;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            border-bottom: 1px solid #2f6c87;
+        }
+
+        #aboutUs{
+            padding: 40px;;
+        }
+        img{
+            display: block;
+            width: 400px;
+
+        }
+
+        p{
+            width: 400px;
+        }
+
+        #aboutUs{
+            float: left;
+        }
+
+        #description{
+            float:right;
+        }
       #description {
         font-family: Roboto;
         font-size: 15px;
