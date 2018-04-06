@@ -34,6 +34,10 @@
             border-bottom: 1px solid #2f6c87;
         }
 
+        a{
+            postion: center;
+        }
+
         #aboutUs{
             padding: 40px;;
         }
