@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta charset="utf-8">
+  <title>Air Quality App</title>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script type="text/javascript" src="air_quality.js"></script>
+  <link rel="stylesheet" href="air_quality.css"/>
+
+</head>
+<body ng-app="myApp">
+  <h1 style="text-align: center;">Air Quality</h1>
+
+  <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+
+  <div id="map" style="height: 400px; width: 500px;"></div>
+
+  <div ng-controller="Populate">
+    <!-- Stuff to Filter  -->
+    <h3>Filter by Particle</h3>
+    <p>Select a particle to filter. Optional parameters in the form of: [Measurement Value]</p>
+    <select id="category">
+      <option value="">None</option>
+      <option value="&parameter=bc">Black Carbon</option>
+      <option value="&parameter=co">Carbon Monoxide</option>
+      <option value="&parameter=no2">Nitrogen Dioxide</option>
+      <option value="&parameter=o3">Ozone</option>
+      <option value="&parameter=pm10">Particulate matter < 10 micrometers in diameter</option>
+      <option value="&parameter=pm25">Particulate matter < 2.5 micrometers in diameter</option>
+      <option value="&parameter=so2">Sulfer Dioxide</option>
+    </select>
+    <select id="compare">
+      <option value="">None</option>
+      <option value="&value_to="> <= </option>
+      <option value="&value_from="> >= </option>
+      <option value="&value="> = </option>
+    </select>
+
+    <input id="filterValue" type="text" name="filterValue" placeholder="Measurement Value">
+    <p>Optional: Filter By Date within the last 90 days</p>
+    <input id="days" type="date">
+    <p>Chose the next day</p>
+    <input id="tomorrow" type="date">
+    <button id="myButton" type="button">Filter</button>
+
+    <!-- Table -->
+    <table>
+      <tr>
+        <th>Location</th>
+        <th>Particle</th>
+        <th>Value</th>
+        <th>Unit</th>
+        <th>Date</th>
+      </tr>
+      <tr ng-repeat="x in info">
+        <td id="myCity">{{x.city}}</td>
+        <td id="myPara">{{x.parameter}}</td>
+        <td id="myVal">{{x.value}}</td>
+        <td id="myUnit">{{x.unit}}</td>
+        <td id="myDate">{{x.date.local}}</td>
+      </tr>
+    </table>
+  </div>
+
+<script>
+var map;
+var markers = [];
+var app = angular.module('myApp', []);
+app.controller('Populate', function($scope, $http) {
+  //var latAndLng = "hi";
+  map_interval = setInterval(() => {
+    if (map !== undefined) {
+      clearInterval(map_interval);
+      console.log("In controller and have map!");
+
+      map.addListener('dragend', ReloadTable);
+      ReloadTable();
+      search_interval = setInterval(() =>{
+        var input = document.getElementById('pac-input');
+        if(input.value.length > 0){
+          ReloadTable();
+        }
+      }, 7000);
+
+    }//if
+  }, 500);
+
+  document.getElementById("myButton").addEventListener("click", ReloadTable);
+
+  function ReloadTable() {
+    console.log("reload table");
+    var latAndLng = map.getCenter();
+    var lat = latAndLng.lat();
+    var lng = latAndLng.lng();
+
+    var inputBox = document.getElementById('pac-input');
+    inputBox.value = "";
+    inputBox.placeholder = lat + " " + lng;
+
+    var bounds = map.getBounds();
+    var center = bounds.getCenter();
+    var ne = bounds.getNorthEast();
+    var radius = google.maps.geometry.spherical.computeDistanceBetween(center, ne);
+
+    var theDate = document.getElementById('days');
+    var nextDay = document.getElementById('tomorrow')
+    var filter = "" + document.getElementById('category').value + document.getElementById('compare').value + document.getElementById('filterValue').value;
+    var chooseDate = "";
+    if(theDate.value.length > 0 && nextDay.value.length > 0){
+        chooseDate = "&date_from=" + theDate.value + "&date_to=" + tomorrow.value;
+        console.log("filter 2 " + chooseDate);
+    };
+
+    console.log("filter" + filter);
+    var airQ = "https://api.openaq.org/v1/measurements?coordinates=" + lat + "," + lng + "&radius=" +radius + filter + chooseDate;
+    console.log(airQ);
+    $http.get(airQ).then(function(response) {
+      console.log(response.data.results);
+      $scope.info = response.data.results;
+      if(response.data.results.length > 0){
+        for(var i = 0; i<response.data.results.length; i++){
+          markers.push(new google.maps.Marker({
+            map: map,
+            position: {lat: response.data.results[i].coordinates.latitude, lng: response.data.results[i].coordinates.longitude}
+          }));
+        }//for
+      }
+    })
+  }//ReloadTable
+
+
+});
+
+
+// This example adds a search box to a map, using the Google Place Autocomplete
+// feature. People can enter geographical searches. The search box will return a
+// pick list containing a mix of places and predicted search terms.
+
+// This example requires the Places library. Include the libraries=places
+// parameter when you first load the API. For example:
+// <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
+function initAutocomplete() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: 44.9778, lng: -93.2650},
+    zoom: 10,
+    mapTypeId: 'roadmap'
+  });
+
+// Create the search box and link it to the UI element.
+var input = document.getElementById('pac-input');
+var searchBox = new google.maps.places.SearchBox(input);
+map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+var inputBox = document.getElementById('pac-input');
+
+
+// Bias the SearchBox results towards current map's viewport.
+map.addListener('bounds_changed', function() {
+  searchBox.setBounds(map.getBounds());
+});
+
+// Listen for the event fired when the user selects a prediction and retrieve
+// more details for that place.
+searchBox.addListener('places_changed', function() {
+  var places = searchBox.getPlaces();
+
+  if (places.length == 0) {
+    return;
+  }
+
+  // Clear out the old markers.
+  markers.forEach(function(marker) {
+    marker.setMap(null);
+  });
+  markers = [];
+
+  // For each place, get the icon, name and location.
+  var bounds = new google.maps.LatLngBounds();
+  places.forEach(function(place) {
+    if (!place.geometry) {
+      console.log("Returned place contains no geometry");
+      return;
+    }
+    var icon = {
+      url: place.icon,
+      size: new google.maps.Size(71, 71),
+      origin: new google.maps.Point(0, 0),
+      anchor: new google.maps.Point(17, 34),
+      scaledSize: new google.maps.Size(25, 25)
+    };
+
+    // Create a marker for each place.
+    markers.push(new google.maps.Marker({
+      map: map,
+      icon: icon,
+      title: place.name,
+      position: place.geometry.location
+    }));
+
+    if (place.geometry.viewport) {
+      // Only geocodes have viewport.
+      bounds.union(place.geometry.viewport);
+    } else {
+      bounds.extend(place.geometry.location);
+    }
+  });
+  map.fitBounds(bounds);
+});
+
+}
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNZmrNrtOxOw9_2BLj6x4k3oloDjQao5Q&libraries=places,geometry&callback=initAutocomplete"
+async defer></script>
+</body>
+</html>
