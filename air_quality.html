@@ -101,7 +101,7 @@ app.controller('Populate', function($scope, $http) {
     inputBox.placeholder = lat + " " + lng;
 
     var bounds = map.getBounds();
-    var center = bounds.getCenter();
+    var center = map.getCenter();
     var ne = bounds.getNorthEast();
     var radius = Math.floor(google.maps.geometry.spherical.computeDistanceBetween(center, ne));
 
