@@ -115,7 +115,7 @@ app.controller('Populate', function($scope, $http) {
 
     var filter = "" + document.getElementById('category').value + document.getElementById('compare').value + document.getElementById('filterValue').value;
     console.log("filter" + filter);
-    var airQ = "https://api.openaq.org/v1/measurements?coordinates=" + lat + "," + lng + "&radius=" + radius "&limit=100" + filter + chooseDate;
+    var airQ = "https://api.openaq.org/v1/measurements?coordinates=" + lat + "," + lng + "&radius=" + radius "&limit=10000" + filter + chooseDate;
     console.log(airQ);
     $http.get(airQ).then(function(response) {
       console.log(response.data.results);
